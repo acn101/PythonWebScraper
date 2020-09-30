@@ -2,6 +2,7 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 import re
 
+# Setup selenium web driver
 browser = webdriver.Firefox()
 
 # Ask the user for url
@@ -19,7 +20,7 @@ try:
         NewURL = 'https://' + URL
         browser.get(NewURL)
 except:
-    print("Could not find " + URL)
+    print("Could not find URL: " + URL)
     browser.quit()
     quit()
 
@@ -29,10 +30,20 @@ soup = BeautifulSoup(PageSRC, 'html.parser')
 
 # Write the links to a txt file using regular expression
 links = re.findall("((\w+:\/\/)[-a-zA-Z0-9:@;?&=\/%\+\.\*!'\(\),\$_\{\}\^~\[\]`#|]+)", soup.prettify())
-file = open(URL + ' Links.txt', 'w+')
-file.write('Links taken from ' + URL + '\n\n')
-for link in links:
-    file.write(link[0] + '\n')
+try:
+    file = open(URL + ' Links.txt', 'w+')
+    file.write('Links taken from ' + URL + '\n\n')
+    for link in links:
+        file.write(link[0] + '\n')
+except:
+    file = open('Links.txt', 'w+')
+    file.write('Links taken from ' + URL + '\n\n')
+    for link in links:
+        file.write(link[0] + '\n')
+else:
+    print("Could not write to file!")
+    browser.quit()
+    quit()
 
 # Close the file
 file.close()

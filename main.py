@@ -31,16 +31,11 @@ soup = BeautifulSoup(PageSRC, 'html.parser')
 # Write the links to a txt file using regular expression
 links = re.findall("((\w+:\/\/)[-a-zA-Z0-9:@;?&=\/%\+\.\*!'\(\),\$_\{\}\^~\[\]`#|]+)", soup.prettify())
 try:
-    file = open(URL + ' Links.txt', 'w+')
-    file.write('Links taken from ' + URL + '\n\n')
-    for link in links:
-        file.write(link[0] + '\n')
-except:
     file = open('Links.txt', 'w+')
     file.write('Links taken from ' + URL + '\n\n')
     for link in links:
         file.write(link[0] + '\n')
-else:
+except:
     print("Could not write to file!")
     browser.quit()
     quit()
